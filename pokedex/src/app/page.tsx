@@ -72,6 +72,11 @@ export default function PokemonCard() {
     }
   };
 
+  const getImage = (pokemon: Pokemon) =>
+    pokemon?.sprites?.other?.["official-artwork"]?.front_default ||
+    pokemon?.sprites?.front_default ||
+    "";
+
   return (
     <section className="p-6 max-w-5xl mx-auto">
       {/* Formulário de busca */}
@@ -97,14 +102,21 @@ export default function PokemonCard() {
 
       {/* Resultado da busca */}
       {pokemon && (
-        <ul className="border rounded p-4 mb-6 text-center">
-          <li className="text-xl font-bold">
+        <div className="border rounded p-4 mb-6 text-center">
+          <p className="text-xl font-bold">
             Nome: {pokemon.name}
-          </li>
-          <li className="text-xl font-bold">
+          </p>
+          <p className="text-xl font-bold">
             ID: #{pokemon.id}
-          </li>
-        </ul>
+          </p>
+          {getImage(pokemon) && (
+            <img
+              src={getImage(pokemon)}
+              alt={pokemon.name}
+              className="w-56 text-center"
+            />
+          )}
+        </div>
       )}
 
       {/* Lista inicial de Pokémons */}
@@ -112,10 +124,17 @@ export default function PokemonCard() {
         {pokemonList.map((pokemon) => (
           <div key={pokemon.id} className="border rounded p-3 text-center">
             <p className="font-semibold">
-              Nome: {pokemon.name}
-            </p>
-            <p className="font-semibold">
               ID: #{pokemon.id}
+            </p>
+            {getImage(pokemon) && (
+              <img
+                src={getImage(pokemon)}
+                alt={pokemon.name}
+                className="w-56 text-center"
+              />
+            )}
+                        <p className="font-semibold">
+              {pokemon.name}
             </p>
           </div>
         ))}
