@@ -18,21 +18,25 @@ type Pokemon = {
 };
 
 export default function PokemonCard() {
-  const [pokemonList, setPokemonList] = useState<Pokemon[]>([]); // lista inicial
-  const [nameOrId, setNameOrId] = useState<string>(""); // input do usuário
-  const [pokemon, setPokemon] = useState<Pokemon | null>(null); // busca individual
+  const [pokemonList, setPokemonList] = useState<Pokemon[]>([]); // lista completa
+  const [searchTerm, setSearchTerm] = useState<string>(""); // termo de busca em tempo real
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null); // Pokémon selecionado
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Filtrar Pokémons baseado no termo de busca
+  const filteredPokemonList = pokemonList.filter(pokemon =>
+    pokemon.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+  );
 
   // Carregar lista inicial de Pokémons
   useEffect(() => {
     const fetchAllPokemons = async () => {
       try {
-        const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=50");
-        if (!res.ok) throw new Error(`Pokemon não encontrado`);
+        const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
+        if (!res.ok) throw new Error(`Erro ao carregar Pokémons`);
         const data = await res.json();
 
-        // Buscar detalhes de cada Pokémon
         const detailed = await Promise.all(
           data.results.map(async (p: { name: string; url: string }) => {
             const res = await fetch(p.url);
@@ -42,100 +46,95 @@ export default function PokemonCard() {
         setPokemonList(detailed);
       } catch (err) {
         console.error(err);
+        setError("Erro ao carregar lista de Pokémons");
       }
     };
 
     fetchAllPokemons();
   }, []);
 
-  // Buscar 1 Pokémon pelo input
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!nameOrId.trim()) return;
-
+  // Buscar Pokémon detalhado ao clicar
+  const handlePokemonSelect = async (pokemonName: string) => {
     setLoading(true);
     setError(null);
 
     try {
       const res = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${encodeURIComponent(nameOrId.toLowerCase())}`
+        `https://pokeapi.co/api/v2/pokemon/${encodeURIComponent(pokemonName.toLowerCase())}`
       );
-      if (!res.ok) throw new Error(`Pokemon não encontrado`);
+      if (!res.ok) throw new Error(`Pokémon não encontrado`);
       const data = (await res.json()) as Pokemon;
-      setPokemon(data);
+      setSelectedPokemon(data);
     } catch (err: unknown) {
       if (err instanceof Error) setError(err.message);
-      else setError(String(err));
-      setPokemon(null);
+      else setError("Erro ao buscar Pokémon");
+      setSelectedPokemon(null);
     } finally {
       setLoading(false);
     }
   };
 
-  const getImage = (pokemon: Pokemon) =>
-    pokemon?.sprites?.other?.["official-artwork"]?.front_default ||
-    pokemon?.sprites?.front_default ||
+  const getImage = (p: Pokemon) =>
+    p?.sprites?.other?.["official-artwork"]?.front_default ||
+    p?.sprites?.front_default ||
     "";
 
   return (
     <section className="p-6 max-w-5xl mx-auto">
-      {/* Formulário de busca */}
-      <form onSubmit={handleSubmit} className="mb-6 flex gap-2">
+      {/* Campo de busca em tempo real */}
+      <div className="mb-6">
         <input
-          name="name"
-          value={nameOrId}
-          onChange={(e) => setNameOrId(e.target.value)}
-          placeholder="Digite o nome ou ID"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Consultar Pokémon"
           className="border px-3 py-2 rounded w-full"
         />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Buscar
-        </button>
-      </form>
+        <p className="text-sm text-gray-600 mt-2">
+          {filteredPokemonList.length} Pokémon(s) encontrado(s)
+        </p>
+      </div>
 
       {/* Erros e carregamento */}
-      {loading && <p>Carregando...</p>}
+      {loading && <p className="text-blue-600">Carregando...</p>}
       {error && <p className="text-red-600">{error}</p>}
 
-      {/* Resultado da busca */}
-      {pokemon && (
+      {/* Pokémon selecionado */}
+      {selectedPokemon && (
         <div className="border rounded p-4 mb-6 text-center">
-          <p className="text-xl font-bold">
-            Nome: {pokemon.name}
-          </p>
-          <p className="text-xl font-bold">
-            ID: #{pokemon.id}
-          </p>
-          {getImage(pokemon) && (
+
+          {getImage(selectedPokemon) && (
             <img
-              src={getImage(pokemon)}
-              alt={pokemon.name}
-              className="w-56 text-center"
+              src={getImage(selectedPokemon)}
+              alt={selectedPokemon.name}
+              className="w-56 text-center mx-auto"
             />
           )}
+          <p className="text-xl font-bold">Nome: {selectedPokemon.name}</p>
+          <p className="text-xl font-bold">ID: #{selectedPokemon.id}</p>
+          <p className="text-xl font-bold">Peso: {selectedPokemon.weight}</p>
+          <p className="text-xl font-bold">Level: {selectedPokemon.base_experience}</p>
         </div>
+      
       )}
 
-      {/* Lista inicial de Pokémons */}
+      {/* Lista filtrada de Pokémons */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {pokemonList.map((pokemon) => (
-          <div key={pokemon.id} className="border rounded p-3 text-center">
-            <p className="font-semibold">
-              ID: #{pokemon.id}
-            </p>
+        {filteredPokemonList.map((pokemon) => (
+          <div
+            key={pokemon.id}
+            onClick={() => handlePokemonSelect(pokemon.name)}
+            className="border rounded p-2 text-center cursor-pointer hover:bg-gray-50 transition-colors"
+          >
+            
+            <p className="text-xs text-gray-600">#{pokemon.id}</p>
             {getImage(pokemon) && (
               <img
                 src={getImage(pokemon)}
                 alt={pokemon.name}
-                className="w-56 text-center"
+                className="w-56 text-center mx-auto"
               />
             )}
-                        <p className="font-semibold">
-              {pokemon.name}
-            </p>
+            <p className="font-semibold text-sm">{pokemon.name}</p>
           </div>
         ))}
       </div>
