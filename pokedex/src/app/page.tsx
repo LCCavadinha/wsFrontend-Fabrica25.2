@@ -1,21 +1,8 @@
 "use client";
 
+import { Pokemon } from "@/types";
 import { useEffect, useState } from "react";
 
-// Definição do tipo
-type Pokemon = {
-  id: number;
-  name: string;
-  weight: number;
-  base_experience: number;
-  sprites?: {
-    front_default?: string;
-    other?: {
-      "official-artwork"?: { front_default?: string };
-    };
-  };
-  types: { slot: number; type: { name: string } }[];
-};
 
 export default function PokemonCard() {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]); // lista completa
