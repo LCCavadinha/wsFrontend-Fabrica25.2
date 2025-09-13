@@ -1,4 +1,4 @@
-import IconPokebola from "@/components/icons/IconPokebola";
+import IconPokebola from "@/components/icons/IconPokeBall";
 import "./globals.css";
 
 import type { Metadata } from "next";

@@ -76,9 +76,17 @@ export default function PokemonCard() {
           placeholder="Consultar Pokémon"
           className="border px-3 py-2 rounded-4xl w-full bg-amber-50"
         />
-        <p className="text-sm text-white mt-2">
-          {filteredPokemonList.length} Pokémon(s) encontrado(s)
-        </p>
+        {searchTerm && (
+          <p className={`text-sm mt-2 ${filteredPokemonList.length === 0
+              ? "text-black"
+              : "text-white"
+            }`}>
+            {filteredPokemonList.length === 0
+              ? "Nenhum Pokémon encontrado"
+              : `${filteredPokemonList.length} Pokémon(s) encontrado(s)`
+            }
+          </p>
+        )}
       </div>
 
       {/* Erros e carregamento */}
@@ -87,21 +95,28 @@ export default function PokemonCard() {
 
       {/* Pokémon selecionado */}
       {selectedPokemon && (
-        <div className="border rounded p-4 mb-6 text-center bg-amber-50">
-
+        <div className=" relative border rounded p-4 mb-6 text-center bg-amber-50 md:flex items-center justify-around">
+          <button
+            onClick={() => setSelectedPokemon(null)}
+            className="absolute cursor-pointer top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 transition-colors text-lg font-bold "
+          >
+            X
+          </button>
           {getImage(selectedPokemon) && (
             <img
               src={getImage(selectedPokemon)}
               alt={selectedPokemon.name}
-              className="w-56 text-center mx-auto"
+              className="w-56 text-center mx-auto md:mx-0"
             />
           )}
-          <p className="text-xl font-bold">Nome: {selectedPokemon.name}</p>
-          <p className="text-xl font-bold">ID: #{selectedPokemon.id}</p>
-          <p className="text-xl font-bold">Peso: {selectedPokemon.weight}</p>
-          <p className="text-xl font-bold">Level: {selectedPokemon.base_experience}</p>
+          <div className="flex flex-col gap-0.5 md:text-start">
+            <p className="text-xl font-bold">ID: #{selectedPokemon.id}</p>
+            <p className="text-xl font-bold">Nome: {selectedPokemon.name}</p>
+            <p className="text-xl font-bold">Peso: {selectedPokemon.weight}</p>
+            <p className="text-xl font-bold">Level: {selectedPokemon.base_experience}</p>
+          </div>
         </div>
-      
+
       )}
 
       {/* Lista filtrada de Pokémons */}
@@ -112,7 +127,7 @@ export default function PokemonCard() {
             onClick={() => handlePokemonSelect(pokemon.name)}
             className="border rounded p-2 text-center cursor-pointer bg-amber-50 hover:bg-gray-50 transition-colors"
           >
-            
+
             <p className="text-xs text-gray-600">#{pokemon.id}</p>
             {getImage(pokemon) && (
               <img
@@ -121,7 +136,7 @@ export default function PokemonCard() {
                 className="w-56 text-center mx-auto"
               />
             )}
-            <p className="font-semibold text-sm">{pokemon.name}</p>
+            <p className="font-semibold text-xs md:text-sm">{pokemon.name}</p>
           </div>
         ))}
       </div>
