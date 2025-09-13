@@ -89,16 +89,12 @@ export default function PokemonCard() {
         )}
       </div>
 
-      {/* Erros e carregamento */}
-      {loading && <p className="text-blue-600">Carregando...</p>}
-      {error && <p className="text-red-600">{error}</p>}
-
       {/* Pokémon selecionado */}
       {selectedPokemon && (
         <div className=" relative border rounded p-4 mb-6 text-center bg-amber-50 md:flex items-center justify-around">
           <button
             onClick={() => setSelectedPokemon(null)}
-            className="absolute cursor-pointer top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 transition-colors text-lg font-bold "
+            className="absolute cursor-pointer top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center  hover:bg-red-600 transition-colors text-lg font-bold"
           >
             X
           </button>
