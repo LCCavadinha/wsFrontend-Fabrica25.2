@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Definição do tipo
 type Pokemon = {
@@ -18,10 +18,35 @@ type Pokemon = {
 };
 
 export default function PokemonCard() {
+  const [pokemonList, setPokemonList] = useState<Pokemon[]>([]); // lista inicial
   const [nameOrId, setNameOrId] = useState<string>(""); // input do usuário
+  const [pokemon, setPokemon] = useState<Pokemon | null>(null); // busca individual
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [pokemon, setPokemon] = useState<Pokemon | null>(null); // busca individual
+
+  // Carregar lista inicial de Pokémons
+  useEffect(() => {
+    const fetchAllPokemons = async () => {
+      try {
+        const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=50");
+        if (!res.ok) throw new Error(`Pokemon não encontrado`);
+        const data = await res.json();
+
+        // Buscar detalhes de cada Pokémon
+        const detailed = await Promise.all(
+          data.results.map(async (p: { name: string; url: string }) => {
+            const res = await fetch(p.url);
+            return (await res.json()) as Pokemon;
+          })
+        );
+        setPokemonList(detailed);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchAllPokemons();
+  }, []);
 
   // Buscar 1 Pokémon pelo input
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -81,6 +106,20 @@ export default function PokemonCard() {
           </li>
         </ul>
       )}
+
+      {/* Lista inicial de Pokémons */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {pokemonList.map((pokemon) => (
+          <div key={pokemon.id} className="border rounded p-3 text-center">
+            <p className="font-semibold">
+              Nome: {pokemon.name}
+            </p>
+            <p className="font-semibold">
+              ID: #{pokemon.id}
+            </p>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
