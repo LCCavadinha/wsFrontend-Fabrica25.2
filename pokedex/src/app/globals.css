@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@theme {
+
+  --bg-red-700: #DC0A2D;
+  /* Mudando a fonte padrão do tailwind que é a sans para fonte importada do google*/
+  --font-sans: var(--font-poppins);
+  --font-heading: var(--font-oxanium);
+}

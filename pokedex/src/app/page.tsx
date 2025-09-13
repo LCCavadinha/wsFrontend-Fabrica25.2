@@ -80,16 +80,16 @@ export default function PokemonCard() {
     "";
 
   return (
-    <section className="p-6 max-w-5xl mx-auto">
+    <section>
       {/* Campo de busca em tempo real */}
       <div className="mb-6">
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Consultar Pokémon"
-          className="border px-3 py-2 rounded w-full"
+          className="border px-3 py-2 rounded-4xl w-full bg-amber-50"
         />
-        <p className="text-sm text-gray-600 mt-2">
+        <p className="text-sm text-white mt-2">
           {filteredPokemonList.length} Pokémon(s) encontrado(s)
         </p>
       </div>
@@ -100,7 +100,7 @@ export default function PokemonCard() {
 
       {/* Pokémon selecionado */}
       {selectedPokemon && (
-        <div className="border rounded p-4 mb-6 text-center">
+        <div className="border rounded p-4 mb-6 text-center bg-amber-50">
 
           {getImage(selectedPokemon) && (
             <img
@@ -118,12 +118,12 @@ export default function PokemonCard() {
       )}
 
       {/* Lista filtrada de Pokémons */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {filteredPokemonList.map((pokemon) => (
           <div
             key={pokemon.id}
             onClick={() => handlePokemonSelect(pokemon.name)}
-            className="border rounded p-2 text-center cursor-pointer hover:bg-gray-50 transition-colors"
+            className="border rounded p-2 text-center cursor-pointer bg-amber-50 hover:bg-gray-50 transition-colors"
           >
             
             <p className="text-xs text-gray-600">#{pokemon.id}</p>
