@@ -57,3 +57,9 @@ Este projeto foi feito em **Next.js** + **React** + **TypeScript** para consumir
 - Layout totalmente responsivo e animado.  
 - Cards e barra de pesquisa possuem interações visuais (hover, animações).  
 - Estrutura modular, permitindo expansão futura com novos recursos.
+
+## 🚀 Deploy
+
+O projeto foi publicado na **Vercel** e pode ser acessado através do link abaixo:
+
+👉 [Confira o projeto online](https://ws-frontend-fabrica25-2-chi.vercel.app/)
