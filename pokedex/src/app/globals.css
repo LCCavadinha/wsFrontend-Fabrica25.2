@@ -6,4 +6,20 @@
   /* Mudando a fonte padrão do tailwind que é a sans para fonte importada do google*/
   --font-sans: var(--font-poppins);
   --font-heading: var(--font-oxanium);
+};
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out 2s forwards;
+}
+
