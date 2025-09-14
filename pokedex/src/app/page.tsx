@@ -78,8 +78,8 @@ export default function PokemonCard() {
         />
         {searchTerm && (
           <p className={`text-sm mt-2 ${filteredPokemonList.length === 0
-              ? "text-black"
-              : "text-white"
+            ? "text-black"
+            : "text-white"
             }`}>
             {filteredPokemonList.length === 0
               ? "Nenhum Pokémon encontrado"
@@ -116,26 +116,28 @@ export default function PokemonCard() {
       )}
 
       {/* Lista filtrada de Pokémons */}
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        {filteredPokemonList.map((pokemon) => (
-          <div
-            key={pokemon.id}
-            onClick={() => handlePokemonSelect(pokemon.name)}
-            className="border rounded p-2 text-center cursor-pointer bg-amber-50 hover:bg-gray-50 transition-colors"
-          >
-
-            <p className="text-xs text-gray-600">#{pokemon.id}</p>
-            {getImage(pokemon) && (
-              <img
-                src={getImage(pokemon)}
-                alt={pokemon.name}
-                className="w-56 text-center mx-auto"
-              />
-            )}
-            <p className="font-semibold text-xs md:text-sm">{pokemon.name}</p>
-          </div>
-        ))}
-      </div>
+<div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 group">
+  {filteredPokemonList.map((pokemon) => (
+    <div
+      key={pokemon.id}
+      onClick={() => handlePokemonSelect(pokemon.name)}
+      className="border rounded p-2 text-center cursor-pointer bg-amber-50 
+                transition-all duration-300 ease-out
+                group-hover:filter group-hover:blur-sm group-hover:opacity-80
+                hover:!blur-none hover:!opacity-100 hover:transform hover:-translate-y-2 hover:shadow-lg hover:z-10"
+    >
+      <p className="text-xs text-gray-600">#{pokemon.id}</p>
+      {getImage(pokemon) && (
+        <img
+          src={getImage(pokemon)}
+          alt={pokemon.name}
+          className="w-56 text-center mx-auto transition-transform duration-300 hover:scale-105"
+        />
+      )}
+      <p className="font-semibold text-xs md:text-sm">{pokemon.name}</p>
+    </div>
+  ))}
+</div>
     </section>
   );
 }
