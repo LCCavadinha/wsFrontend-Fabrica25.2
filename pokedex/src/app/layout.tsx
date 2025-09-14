@@ -1,6 +1,9 @@
 import IconPokebola from "@/components/icons/IconPokeBall";
 import "./globals.css";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
+
 import type { Metadata } from "next";
 import { Oxanium, Poppins } from 'next/font/google'
 
@@ -28,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${poppins.variable} ${oxanium.variable}`}>
-      <body className="bg-red-700 px-6 max-w-5xl mx-auto overflow-hidden h-screen flex flex-col">
+      <body className="bg-red-700 px-6 max-w-5xl mx-auto overflow-hidden h-screen flex flex-col antialiased">
         <header className="py-6 flex items-center gap-2">
           <span className="animate-spin animate-infinite animate-duration-[5000ms] animate-delay-[5000ms] animate-ease-in-out animate-normal">
             <IconPokebola />
@@ -41,11 +44,17 @@ export default function RootLayout({
         <main>
           {children}
         </main>
-        <footer>
+        <footer className="flex">
           <div className="fixed bottom-0 py-6 flex items-center gap-2 bg-red-700 w-full">
-            <h2>
+            <h2 className="animate-fade-left animate-once animate-duration-500 animate-delay-[3000ms] animate-ease-linear animate-normal">
               Feito Por Luiz Carlos
             </h2>
+            <a href="https://github.com/LCCavadinha" target="_Blank">
+              <FontAwesomeIcon icon={faGithub} className="w-6 h-6 text-black" />
+            </a>
+            <a href="https://www.linkedin.com/in/luiz-carlos-souza-costa-cavadinha-2646aa279/" target="_Blank">
+              <FontAwesomeIcon icon={faLinkedin} className="w-6 h-6 text-black" />
+            </a>
           </div>
         </footer>
       </body>
