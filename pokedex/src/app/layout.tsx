@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${poppins.variable} ${oxanium.variable}`}>
-      <body className="bg-red-700 px-6 max-w-5xl mx-auto">
+      <body className="bg-red-700 px-6 max-w-5xl mx-auto overflow-hidden">
         <header className="py-6 flex items-center gap-2">
           <span className="animate-spin animate-infinite animate-duration-[5000ms] animate-delay-[5000ms] animate-ease-in-out animate-normal">
             <IconPokebola />
@@ -41,6 +41,13 @@ export default function RootLayout({
         <main>
           {children}
         </main>
+        <footer>
+          <div className="fixed bottom-0 py-6 flex items-center gap-2 bg-red-700 w-full">
+            <h2>
+              Feito Por Luiz Carlos
+            </h2>
+          </div>
+        </footer>
       </body>
     </html>
   );

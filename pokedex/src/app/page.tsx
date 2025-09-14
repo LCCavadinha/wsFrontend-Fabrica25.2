@@ -67,9 +67,9 @@ export default function PokemonCard() {
     "";
 
   return (
-    <section>
+    <section className="flex flex-col h-screen max-h-3/4">
       {/* Campo de busca em tempo real */}
-      <div className="mb-6">
+      <div className="mb-6 flex-shrink-0">
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -91,7 +91,7 @@ export default function PokemonCard() {
 
       {/* Pokémon selecionado */}
       {selectedPokemon && (
-        <div className=" relative border rounded p-4 mb-6 text-center bg-amber-50 md:flex items-center justify-around">
+        <div className=" relative border rounded p-4 mb-6 text-center bg-amber-50 md:flex items-center justify-around flex-shrink-0">
           <button
             onClick={() => setSelectedPokemon(null)}
             className="absolute cursor-pointer top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center  hover:bg-red-600 transition-colors text-lg font-bold"
@@ -116,28 +116,31 @@ export default function PokemonCard() {
       )}
 
       {/* Lista filtrada de Pokémons */}
-<div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 group">
-  {filteredPokemonList.map((pokemon) => (
-    <div
-      key={pokemon.id}
-      onClick={() => handlePokemonSelect(pokemon.name)}
-      className="border rounded p-2 text-center cursor-pointer bg-amber-50 
+
+      <div className="flex-1 overflow-y-auto scrollbar-pokemon">
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-2 group">
+          {filteredPokemonList.map((pokemon) => (
+            <div
+              key={pokemon.id}
+              onClick={() => handlePokemonSelect(pokemon.name)}
+              className="border rounded p-2 text-center cursor-pointer bg-amber-50 
                 transition-all duration-300 ease-out
-                group-hover:filter group-hover:blur-sm group-hover:opacity-80
+                group-hover:filter group-hover:opacity-85
                 hover:!blur-none hover:!opacity-100 hover:transform hover:-translate-y-2 hover:shadow-lg hover:z-10"
-    >
-      <p className="text-xs text-gray-600">#{pokemon.id}</p>
-      {getImage(pokemon) && (
-        <img
-          src={getImage(pokemon)}
-          alt={pokemon.name}
-          className="w-56 text-center mx-auto transition-transform duration-300 hover:scale-105"
-        />
-      )}
-      <p className="font-semibold text-xs md:text-sm">{pokemon.name}</p>
-    </div>
-  ))}
-</div>
+            >
+              <p className="text-xs text-gray-600">#{pokemon.id}</p>
+              {getImage(pokemon) && (
+                <img
+                  src={getImage(pokemon)}
+                  alt={pokemon.name}
+                  className="w-56 text-center mx-auto transition-transform duration-300 hover:scale-105"
+                />
+              )}
+              <p className="font-semibold text-xs md:text-sm">{pokemon.name}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

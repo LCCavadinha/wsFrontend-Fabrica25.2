@@ -23,3 +23,28 @@
   animation: fadeIn 0.5s ease-in-out 2s forwards;
 }
 
+
+/* Scrollbar personalizado */
+.scrollbar-pokemon {
+  scrollbar-width: thin;
+  scrollbar-color: #DC2626 #FECACA;
+}
+
+.scrollbar-pokemon::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollbar-pokemon::-webkit-scrollbar-track {
+  background: #FECACA;
+  border-radius: 10px;
+}
+
+.scrollbar-pokemon::-webkit-scrollbar-thumb {
+  background: #DC2626;
+  border-radius: 10px;
+  border: 2px solid #FECACA;
+}
+
+.scrollbar-pokemon::-webkit-scrollbar-thumb:hover {
+  background: #B91C1C;
+}
