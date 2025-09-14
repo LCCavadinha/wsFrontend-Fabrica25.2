@@ -128,7 +128,10 @@ export default function PokemonCard() {
                 group-hover:filter group-hover:opacity-85
                 hover:!blur-none hover:!opacity-100 hover:transform hover:-translate-y-2 hover:shadow-lg hover:z-10"
             >
-              <p className="text-xs text-gray-600">#{pokemon.id}</p>
+              <div className="flex justify-between items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/512px-Pok%C3%A9_Ball_icon.svg.png" alt="Imagem de uma pokebola" className="w-5 md:w-6" />
+                <p className="text-sm md:text-xl font-semibold text-gray-600">#{pokemon.id}</p>
+              </div>
               {getImage(pokemon) && (
                 <img
                   src={getImage(pokemon)}
