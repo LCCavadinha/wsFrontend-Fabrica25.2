@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${poppins.variable} ${oxanium.variable}`}>
-      <body className="bg-red-700 px-6 max-w-5xl mx-auto overflow-hidden">
+      <body className="bg-red-700 px-6 max-w-5xl mx-auto overflow-hidden h-screen flex flex-col">
         <header className="py-6 flex items-center gap-2">
           <span className="animate-spin animate-infinite animate-duration-[5000ms] animate-delay-[5000ms] animate-ease-in-out animate-normal">
             <IconPokebola />

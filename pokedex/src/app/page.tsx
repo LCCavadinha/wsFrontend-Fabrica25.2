@@ -67,7 +67,7 @@ export default function PokemonCard() {
     "";
 
   return (
-    <section className="flex flex-col h-screen max-h-3/4">
+    <section className="flex flex-col h-screen max-h-5/6">
       {/* Campo de busca em tempo real */}
       <div className="mb-6 flex-shrink-0">
         <input
